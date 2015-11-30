@@ -6,6 +6,10 @@ var PoiSchema   = new Schema({
     description: String,
     lon: Number,
     lat: Number,
+    created : { type: Date, default: Date.now },
+    user : { type : mongoose.Schema.ObjectId, ref : 'User'},
+    comments : [ { type : mongoose.Schema.ObjectId, ref : 'Comment'} ],
+    tags : [ { type : mongoose.Schema.ObjectId, ref : 'Tag'} ],
     active: Boolean
 });
 
