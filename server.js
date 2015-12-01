@@ -13,6 +13,10 @@ app.use(bodyParser.json());
 
 var port = 8080;        // set our port
 
+//connect db
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://127.0.0.1/wt1wadb');
+
 // ROUTES FOR OUR API
 // =============================================================================
 var router = express.Router();              // get an instance of the express Router
