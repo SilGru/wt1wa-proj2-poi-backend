@@ -33,8 +33,10 @@ router.get('/', function(req, res) {
 // all of our routes will be prefixed with /api
 app.use(restServiceName, router);
 
-var userRestController = require(appDir + '/app/rest/db_reset');
-app.use(restServiceName, userRestController);
+var userRestCtrl = require(appDir + '/app/rest/db_reset');
+app.use(restServiceName, userRestCtrl);
+var authenticateRestCtrl = require(appDir + '/app/rest/authenticate');
+app.use(restServiceName, authenticateRestCtrl);
 
 // START THE SERVER
 // =============================================================================
