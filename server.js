@@ -32,15 +32,15 @@ router.get('/', function(req, res) {
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 app.use(restServiceName, router);
+var dbResetRestCtrl = require(appDir + '/app/rest/db_reset');
+app.use(restServiceName, dbResetRestCtrl);
 
+//all following routes require authentication
 var authenticateRestCtrl = require(appDir + '/app/rest/authenticate');
 app.use(restServiceName, authenticateRestCtrl);
 
-//all following routes require authentication
 var authMiddlewareRestCtrl = require(appDir + '/app/rest/auth_middleware');
 app.use(restServiceName, authMiddlewareRestCtrl);
-var dbResetRestCtrl = require(appDir + '/app/rest/db_reset');
-app.use(restServiceName, dbResetRestCtrl);
 var tagRestCtrl = require(appDir + '/app/rest/tag');
 app.use(restServiceName, tagRestCtrl);
 
