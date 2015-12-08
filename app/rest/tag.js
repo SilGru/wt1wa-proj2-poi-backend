@@ -19,6 +19,16 @@ router.post('/tag', function(req, res) {
     })
   }
 
+  Tag.findOne({ "name": name }, function(err, tag) {
+    if (tag) {
+      res.json({
+        "success": "false",
+        "error": "tag exists",
+        "tagId": tag._id
+      })
+    }
+  })
+
   var tag = new Tag({
     "name": name,
     "user": user._id,
