@@ -38,6 +38,8 @@ router.get('/', function(req, res) {
 app.use(restServiceName, router);
 var dbResetRestCtrl = require(appDir + '/app/rest/db_reset');
 app.use(restServiceName, dbResetRestCtrl);
+var userRestCtrl = require(appDir + '/app/rest/user');
+app.use(restServiceName, userRestCtrl);
 
 //all following routes require authentication
 var authenticateRestCtrl = require(appDir + '/app/rest/authenticate');
