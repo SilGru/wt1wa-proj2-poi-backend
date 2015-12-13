@@ -6,19 +6,19 @@ var path     = require('path');
 var appDir   = path.dirname(require.main.filename);
 
 //import model
-var Tag    = require(appDir + '/app/model/tag');
+var Comment    = require(appDir + '/app/model/comment');
 
-router.get('/tags', function(req, res) {
+router.get('/comments', function(req, res) {
   var aIds = req.body.aIds;
   if (aIds) {
-    Tag.find({ '_id' : { $in : aIds }}, function(err, tags){
+    Comment.find({ '_id' : { $in : aIds }}, function(err, comments){
       if (err) res.send(err);
-      res.send(tags);
+      res.send(comments);
     });
   } else {
-    Tag.find({}, function(err, tags) {
+    Comment.find({}, function(err, comments) {
       if (err) res.send(err);
-      res.send(tags);
+      res.send(comments);
     });
   }
 });
