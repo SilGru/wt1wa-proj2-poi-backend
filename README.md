@@ -4,13 +4,13 @@
 
 * POST /authenticate { "name": "username", "password": "user password"}
 
-All following routes **require a valid token**. You can send it as a query param or as a body param.
-
 * GET /db_reset
 
-* POST /tag {"name": "name"}
-
 * POST /user { name, password, email }
+
+All following routes **require a valid token**. You can send it as a query param or as a body param.
+
+* POST /tag {"name": "name"}
 
 ## server how to
 
