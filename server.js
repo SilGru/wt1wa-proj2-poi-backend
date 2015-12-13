@@ -42,14 +42,16 @@ var userRestCtrl = require(appDir + '/app/rest/user');
 app.use(restServiceName, userRestCtrl);
 var poiRestCtrl = require(appDir + '/app/rest/poi');
 app.use(restServiceName, poiRestCtrl);
+var tagRestCtrl = require(appDir + '/app/rest/tag');
+app.use(restServiceName, tagRestCtrl);
 var authenticateRestCtrl = require(appDir + '/app/rest/authenticate');
 app.use(restServiceName, authenticateRestCtrl);
 
 //all following routes require authentication
 var authMiddlewareRestCtrl = require(appDir + '/app/rest/auth_middleware');
 app.use(restServiceName, authMiddlewareRestCtrl);
-var tagRestCtrl = require(appDir + '/app/rest/auth/tag');
-app.use(restServiceName, tagRestCtrl);
+var tagAuthRestCtrl = require(appDir + '/app/rest/auth/tag');
+app.use(restServiceName, tagAuthRestCtrl);
 
 // START THE SERVER
 // =============================================================================
