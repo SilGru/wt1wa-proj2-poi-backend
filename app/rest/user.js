@@ -26,6 +26,24 @@ router.post('/user', function(req, res) {
     res.json({ "success" : "false", "error" : "email must be given." })
   }
 
+  User.findOne({ "name": name }, function(err, user) {
+    if (user) {
+      res.json({
+        "success": "false",
+        "error": "name is used",
+      })
+    }
+  })
+
+  User.findOne({ "email": email }, function(err, user) {
+    if (user) {
+      res.json({
+        "success": "false",
+        "error": "email is used",
+      })
+    }
+  })
+
   var pwh = crypto.createHash('md5').update(password).digest("hex");
   var user = new User();
   user.name = name;
