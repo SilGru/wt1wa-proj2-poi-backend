@@ -8,6 +8,8 @@
 
 * POST /user { name, password, email }
 
+* GET /pois
+
 * GET /tags  (opt. [ ids ])
 
 * GET /comments  (opt. [ ids ])
