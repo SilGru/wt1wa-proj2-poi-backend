@@ -9,6 +9,18 @@ var appDir   = path.dirname(require.main.filename);
 var Comment    = require(appDir + '/app/model/comment');
 
 router.get('/comments', function(req, res) {
+  var aIds = req.body.aIds;
+  if (aIds) {
+    Comment.find({ '_id' : { $in : aIds }}, function(err, comments){
+      if (err) res.send(err);
+      res.send(comments);
+    });
+  } else {
+    Comment.find({}, function(err, comments) {
+      if (err) res.send(err);
+      res.send(comments);
+    });
+  }
 });
 
 module.exports = router;
