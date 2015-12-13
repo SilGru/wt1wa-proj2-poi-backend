@@ -11,7 +11,7 @@ var Poi    = require(appDir + '/app/model/poi');
 router.get('/pois', function(req, res) {
   Poi.find({}, function(err, pois) {
     if (err) res.send(err);
-    res.send(user);
+    res.send(pois);
   });
 });
 
