@@ -44,6 +44,8 @@ var poiRestCtrl = require(appDir + '/app/rest/poi');
 app.use(restServiceName, poiRestCtrl);
 var tagRestCtrl = require(appDir + '/app/rest/tag');
 app.use(restServiceName, tagRestCtrl);
+var commentRestCtrl = require(appDir + '/app/rest/comment');
+app.use(restServiceName, commentRestCtrl);
 var authenticateRestCtrl = require(appDir + '/app/rest/authenticate');
 app.use(restServiceName, authenticateRestCtrl);
 

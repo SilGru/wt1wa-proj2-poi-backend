@@ -16,10 +16,16 @@ router.get('/comments', function(req, res) {
       res.send(comments);
     });
   } else {
-    Comment.find({}, function(err, comments) {
+    Comment.find({})
+    .populate("user")
+    .exec(function(err, comments) {
       if (err) res.send(err);
       res.send(comments);
     });
+    // Comment.find({}, function(err, comments) {
+    //   if (err) res.send(err);
+    //   res.send(comments);
+    // });
   }
 });
 
