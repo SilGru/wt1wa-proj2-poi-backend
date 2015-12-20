@@ -23,4 +23,7 @@ router.get('/pois', function(req, res) {
   });
 });
 
+router.get('/pois/:name', function(req, res) {
+});
+
 module.exports = router;
