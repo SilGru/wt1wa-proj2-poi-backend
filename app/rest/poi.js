@@ -9,6 +9,18 @@ var appDir   = path.dirname(require.main.filename);
 var Poi    = require(appDir + '/app/model/poi');
 
 /**
+ * Returns all pois containing given name.
+ */
+router.get('/pois/:name', function(req, res) {
+  Poi.find({
+    "name" : { "$regex" : req.params.name, "$options" : "i" }
+  },function(err, pois) {
+    if (err) res.send(err);
+    res.send(pois);
+  });
+});
+
+/**
  * Returns all pois.
  */
 router.get('/pois', function(req, res) {
@@ -21,18 +33,6 @@ router.get('/pois', function(req, res) {
   //   res.send(pois);
   // })
   Poi.find({}, function(err, pois) {
-    if (err) res.send(err);
-    res.send(pois);
-  });
-});
-
-/**
- * Returns all pois containing given name.
- */
-router.get('/pois/:name', function(req, res) {
-  Poi.find({
-    "name" : { "$regex" : req.param.name, "$options" : "i" }
-  },function(err, pois) {
     if (err) res.send(err);
     res.send(pois);
   });
