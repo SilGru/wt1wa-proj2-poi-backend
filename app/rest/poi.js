@@ -24,6 +24,12 @@ router.get('/pois', function(req, res) {
 });
 
 router.get('/pois/:name', function(req, res) {
+  Poi.find({
+    "name" : { "$regex" : req.param.name, "$options" : "i" }
+  },function(err, pois) {
+    if (err) res.send(err);
+    res.send(pois);
+  });
 });
 
 module.exports = router;
