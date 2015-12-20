@@ -10,6 +10,8 @@
 
 * GET /pois
 
+* GET /pois/:name
+
 * GET /tags  (opt. [ ids ])
 
 * GET /comments  (opt. [ ids ])
