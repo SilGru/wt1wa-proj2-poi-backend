@@ -8,6 +8,9 @@ var appDir   = path.dirname(require.main.filename);
 //import model
 var Poi    = require(appDir + '/app/model/poi');
 
+/**
+ * Returns all pois.
+ */
 router.get('/pois', function(req, res) {
   // Poi.find({})
   // .populate("tags")
@@ -23,6 +26,9 @@ router.get('/pois', function(req, res) {
   });
 });
 
+/**
+ * Returns all pois containing given name.
+ */
 router.get('/pois/:name', function(req, res) {
   Poi.find({
     "name" : { "$regex" : req.param.name, "$options" : "i" }
