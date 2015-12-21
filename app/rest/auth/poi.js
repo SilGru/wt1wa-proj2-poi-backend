@@ -4,7 +4,7 @@ var router   = express.Router();
 var mongoose = require('mongoose');
 var path     = require('path');
 var appDir   = path.dirname(require.main.filename);
-var validator = require(appDir + 'app/util/validator');
+var validator = require(appDir + '/app/util/validator');
 
 //import model
 var Poi    = require(appDir + '/app/model/poi');
@@ -27,7 +27,7 @@ router.post('/poi', function(req, res) {
     })
   }
 
-  if (!validator.validateString(decription)) {
+  if (!validator.validateString(description)) {
     res.json({
       "success": "false",
       "error": "empty description"
@@ -47,6 +47,10 @@ router.post('/poi', function(req, res) {
       "error": "lat invalid"
     })
   }
+
+  res.json({
+    "success": "true"
+  })
 
 });
 
