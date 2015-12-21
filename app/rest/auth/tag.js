@@ -26,22 +26,23 @@ router.post('/tag', function(req, res) {
         "error": "tag exists",
         "tagId": tag._id
       })
+    } else {
+      var tag = new Tag({
+        "name": name,
+        "user": user._id,
+        "active": true
+      });
+
+      tag.save(function(err) {
+        if (err) res.send(err);
+        res.json({
+          "success": "true",
+          "id": tag._id
+        })
+      });
     }
-  })
-
-  var tag = new Tag({
-    "name": name,
-    "user": user._id,
-    "active": true
   });
 
-  tag.save(function(err) {
-    if (err) res.send(err);
-    res.json({
-      "success": "true",
-      "id": tag._id
-    })
-  });
 });
 
 module.exports = router;
