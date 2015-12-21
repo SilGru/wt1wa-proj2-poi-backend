@@ -8,5 +8,7 @@ var appDir   = path.dirname(require.main.filename);
 //import model
 var Poi    = require(appDir + '/app/model/poi');
 
+router.post('/poi', function(req, res) {
+});
 
 module.exports = router;
