@@ -48,6 +48,23 @@ router.post('/poi', function(req, res) {
     })
   }
 
+  //disambiguate poi
+  Poi.findOne({
+    "name" : name,
+    "lat" : { $gt: lat - 0.5, $lt: lat + 0.5 },
+    "lon" : { $gt: lon - 0.5, $lt: lon + 0.5 },
+  }, function(err, poi) {
+    if (poi) {
+      res.json({
+        "success": "false",
+        "error": "poi exists",
+        "tagId": poi._id
+      })
+    }
+  });
+
+  //poi save
+
   res.json({
     "success": "true"
   })
