@@ -62,30 +62,27 @@ router.post('/poi', function(req, res) {
         "success": "false",
         "error": "poi exists",
         "tagId": poi._id
-      })
+      });
     } else {
-      console.log("kein poi gefunden");
+      //poi save
+      var poi = new Poi({
+        name: name,
+        description: description,
+        lon: lon,
+        lat: lat,
+        user: req.user._id,
+        active: true
+      });
+
+      poi.save(function(err) {
+        if (err) res.send(err);
+        res.json({
+          "success": "true",
+          "id": poi._id
+        })
+      });
     }
   });
-
-  //poi save
-  var poi = new Poi({
-    name: name,
-    description: description,
-    lon: lon,
-    lat: lat,
-    user: req.user._id,
-    active: true
-  });
-
-  poi.save(function(err) {
-    if (err) res.send(err);
-    res.json({
-      "success": "true",
-      "id": poi._id
-    })
-  });
-
 });
 
 module.exports = router;
