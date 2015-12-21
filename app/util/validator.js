@@ -4,5 +4,13 @@ module.exports = {
       return false;
     }
     return true;
+  },
+
+  validateLon : function(lon) {
+    if (typeof lon === "string") {
+      lon = parseFloat(lon);
+    }
+    if ((lon < -180) || (lon > 180)) return false;
+    return true;
   }
 };
