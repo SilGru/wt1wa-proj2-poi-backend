@@ -48,11 +48,14 @@ router.post('/poi', function(req, res) {
     })
   }
 
+  lon = parseFloat(lon);
+  lat = parseFloat(lat);
+
   //disambiguate poi
   Poi.findOne({
     "name" : name,
-    "lat" : { $gt: lat - 0.5, $lt: lat + 0.5 },
-    "lon" : { $gt: lon - 0.5, $lt: lon + 0.5 }
+    "lat" : { $gt: (lat - 0.5), $lt: (lat + 0.5) },
+    "lon" : { $gt: (lon - 0.5), $lt: (lon + 0.5) }
   }, function(err, poi) {
     if (poi) {
       res.json({
