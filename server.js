@@ -54,6 +54,8 @@ var authMiddlewareRestCtrl = require(appDir + '/app/rest/auth_middleware');
 app.use(restServiceName, authMiddlewareRestCtrl);
 var tagAuthRestCtrl = require(appDir + '/app/rest/auth/tag');
 app.use(restServiceName, tagAuthRestCtrl);
+var poiAuthRestCtrl = require(appDir + '/app/rest/auth/poi');
+app.use(restServiceName, poiAuthRestCtrl);
 
 // START THE SERVER
 // =============================================================================
