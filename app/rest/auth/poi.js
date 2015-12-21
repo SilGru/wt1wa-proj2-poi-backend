@@ -4,11 +4,15 @@ var router   = express.Router();
 var mongoose = require('mongoose');
 var path     = require('path');
 var appDir   = path.dirname(require.main.filename);
+<<<<<<< HEAD
 var validator = require(appDir + '/app/util/validator');
+=======
+>>>>>>> 6e5710c3c594b5acd2f54346d07bbacbe9cb27a1
 
 //import model
 var Poi    = require(appDir + '/app/model/poi');
 
+<<<<<<< HEAD
 /**
  * Create poi
  */
@@ -83,6 +87,9 @@ router.post('/poi', function(req, res) {
       });
     }
   });
+=======
+router.post('/poi', function(req, res) {
+>>>>>>> 6e5710c3c594b5acd2f54346d07bbacbe9cb27a1
 });
 
 module.exports = router;
