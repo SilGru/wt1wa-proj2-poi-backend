@@ -26,6 +26,8 @@ All following routes **require a valid token**. You can send it as a query param
 
 * POST /poi { name, description, lon, lat }
 
+* PUT /poi { name, description, lon, lat, user, \_id }
+
 * POST /poi/:poiId/tag/:tagId
 
 * POST /poi/:poiId/comment/:commentId
