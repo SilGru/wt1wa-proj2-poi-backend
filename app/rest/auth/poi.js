@@ -21,33 +21,18 @@ router.post('/poi', function(req, res) {
   var lon = req.body.lon;
   var user = req.user;
 
-  //check poi validity
-  if (!validator.validateString(name)) {
-    res.json({
-      "success": "false",
-      "error": "empty name"
-    })
-  }
+  var result = validator.validatePoi({
+    name: name,
+    description: description,
+    lat: lat,
+    lon: lon
+  });
 
-  if (!validator.validateString(description)) {
-    res.json({
-      "success": "false",
-      "error": "empty description"
-    })
-  }
-
-  if (!validator.validateLon(lon)) {
-    res.json({
-      "success": "false",
-      "error": "lon invalid"
-    })
-  }
-
-  if (!validator.validateLon(lat)) {
-    res.json({
-      "success": "false",
-      "error": "lat invalid"
-    })
+  if (!result.success) {
+    res.status(400).json({
+      "success": result.success,
+      "error": result.error
+    });
   }
 
   lon = parseFloat(lon);
