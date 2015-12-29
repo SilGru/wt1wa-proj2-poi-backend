@@ -4,15 +4,12 @@ var router   = express.Router();
 var mongoose = require('mongoose');
 var path     = require('path');
 var appDir   = path.dirname(require.main.filename);
-<<<<<<< HEAD
 var validator = require(appDir + '/app/util/validator');
-=======
->>>>>>> 6e5710c3c594b5acd2f54346d07bbacbe9cb27a1
 
 //import model
 var Poi    = require(appDir + '/app/model/poi');
+var Tag    = require(appDir + '/app/model/tag');
 
-<<<<<<< HEAD
 /**
  * Create poi
  */
@@ -87,9 +84,43 @@ router.post('/poi', function(req, res) {
       });
     }
   });
-=======
-router.post('/poi', function(req, res) {
->>>>>>> 6e5710c3c594b5acd2f54346d07bbacbe9cb27a1
+});
+
+/**
+ * assign tag to poi
+ */
+router.post('/poi/:poiId/tag/:tagId', function(req, res) {
+  var poiId = req.params.poiId;
+  var tagId = req.params.tagId;
+
+  Poi.findOne({ _id: poiId}, function(err, poi) {
+    if (err) res.status(400).send(err);
+    if (!poi) {
+      res.status(400).json({
+        "success": "false",
+        "error": "poi does not exists"
+      });
+    } else {
+      Tag.findOne({ _id: tagId }, function(err, tag) {
+        if (err) res.status(400).send(err);
+        if (!tag) {
+          res.status(400).json({
+            "success": "false",
+            "error": "tag does not exists"
+          });
+        } else {
+          poi.tags.push(tagId);
+          poi.save(function(err) {
+            if (err) res.status(400).send(err);
+            res.status(200).json({
+              "success": "true"
+            });
+          });
+        }
+      });
+
+    }
+  });
 });
 
 module.exports = router;
