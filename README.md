@@ -22,9 +22,13 @@ All following routes **require a valid token**. You can send it as a query param
 
 * POST /tag {"name": "name"}
 
+* POST /comment {"content": "content"}
+
 * POST /poi { name, description, lon, lat }
 
 * POST /poi/:poiId/tag/:tagId
+
+* POST /poi/:poiId/comment/:commentId
 
 ## server how to
 

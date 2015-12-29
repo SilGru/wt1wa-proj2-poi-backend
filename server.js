@@ -56,6 +56,8 @@ var tagAuthRestCtrl = require(appDir + '/app/rest/auth/tag');
 app.use(restServiceName, tagAuthRestCtrl);
 var poiAuthRestCtrl = require(appDir + '/app/rest/auth/poi');
 app.use(restServiceName, poiAuthRestCtrl);
+var commentAuthRestCtrl = require(appDir + '/app/rest/auth/comment');
+app.use(restServiceName, commentAuthRestCtrl);
 
 // START THE SERVER
 // =============================================================================
