@@ -68,6 +68,39 @@ router.post('/poi', function(req, res) {
 });
 
 /**
+ * Update poi
+ */
+router.put('/poi', function(req, res) {
+  var name = req.body.name;
+  var description = req.body.description;
+  var lat = req.body.lat;
+  var lon = req.body.lon;
+  var user = req.user;
+
+  var poi = new Poi({
+    name: name,
+    description: description,
+    lon: lon,
+    lat: lat,
+    user: req.user._id,
+    active: true
+  });
+
+  var result = validator.validatePoi(poi);
+
+  if (!result.success) {
+    res.status(400).json({
+      "success": result.success,
+      "error": result.error
+    });
+  }
+
+  lon = parseFloat(lon);
+  lat = parseFloat(lat);
+
+});
+
+/**
  * assign tag to poi
  */
 router.post('/poi/:poiId/tag/:tagId', function(req, res) {
