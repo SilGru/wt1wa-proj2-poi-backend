@@ -8,6 +8,7 @@ var validator = require(appDir + '/app/util/validator');
 
 //import model
 var Poi    = require(appDir + '/app/model/poi');
+var Tag    = require(appDir + '/app/model/tag');
 
 /**
  * Create poi
@@ -88,7 +89,38 @@ router.post('/poi', function(req, res) {
 /**
  * assign tag to poi
  */
-router.post('/poi/:id/tag', function(req, res) {
-}
+router.post('/poi/:poiId/tag/:tagId', function(req, res) {
+  var poiId = req.params.poiId;
+  var tagId = req.params.tagId;
+
+  Poi.findOne({ _id: poiId}, function(err, poi) {
+    if (err) res.status(400).send(err);
+    if (!poi) {
+      res.status(400).json({
+        "success": "false",
+        "error": "poi does not exists"
+      });
+    } else {
+      Tag.findOne({ _id: tagId }, function(err, tag) {
+        if (err) res.status(400).send(err);
+        if (!tag) {
+          res.status(400).json({
+            "success": "false",
+            "error": "tag does not exists"
+          });
+        } else {
+          poi.tags.push(tagId);
+          poi.save(function(err) {
+            if (err) res.status(400).send(err);
+            res.status(200).json({
+              "success": "true"
+            });
+          });
+        }
+      });
+
+    }
+  });
+});
 
 module.exports = router;
