@@ -21,12 +21,16 @@ router.post('/poi', function(req, res) {
   var lon = req.body.lon;
   var user = req.user;
 
-  var result = validator.validatePoi({
+  var poi = new Poi({
     name: name,
     description: description,
+    lon: lon,
     lat: lat,
-    lon: lon
+    user: req.user._id,
+    active: true
   });
+
+  var result = validator.validatePoi(poi);
 
   if (!result.success) {
     res.status(400).json({
@@ -43,24 +47,15 @@ router.post('/poi', function(req, res) {
     "name" : name,
     "lat" : { $gt: (lat - 0.5), $lt: (lat + 0.5) },
     "lon" : { $gt: (lon - 0.5), $lt: (lon + 0.5) }
-  }, function(err, poi) {
-    if (poi) {
+  }, function(err, tPoi) {
+    if (tPoi) {
       res.json({
         "success": "false",
         "error": "poi exists",
-        "tagId": poi._id
+        "tagId": tPoi._id
       });
     } else {
       //poi save
-      var poi = new Poi({
-        name: name,
-        description: description,
-        lon: lon,
-        lat: lat,
-        user: req.user._id,
-        active: true
-      });
-
       poi.save(function(err) {
         if (err) res.send(err);
         res.json({
