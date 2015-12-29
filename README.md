@@ -24,6 +24,8 @@ All following routes **require a valid token**. You can send it as a query param
 
 * POST /poi { name, description, lon, lat }
 
+* POST /poi/:poiId/tag/:tagId
+
 ## server how to
 
 * make sure you have mongodb installed listen on default port
