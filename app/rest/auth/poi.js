@@ -21,33 +21,22 @@ router.post('/poi', function(req, res) {
   var lon = req.body.lon;
   var user = req.user;
 
-  //check poi validity
-  if (!validator.validateString(name)) {
-    res.json({
-      "success": "false",
-      "error": "empty name"
-    })
-  }
+  var poi = new Poi({
+    name: name,
+    description: description,
+    lon: lon,
+    lat: lat,
+    user: req.user._id,
+    active: true
+  });
 
-  if (!validator.validateString(description)) {
-    res.json({
-      "success": "false",
-      "error": "empty description"
-    })
-  }
+  var result = validator.validatePoi(poi);
 
-  if (!validator.validateLon(lon)) {
-    res.json({
-      "success": "false",
-      "error": "lon invalid"
-    })
-  }
-
-  if (!validator.validateLon(lat)) {
-    res.json({
-      "success": "false",
-      "error": "lat invalid"
-    })
+  if (!result.success) {
+    res.status(400).json({
+      "success": result.success,
+      "error": result.error
+    });
   }
 
   lon = parseFloat(lon);
@@ -58,24 +47,15 @@ router.post('/poi', function(req, res) {
     "name" : name,
     "lat" : { $gt: (lat - 0.5), $lt: (lat + 0.5) },
     "lon" : { $gt: (lon - 0.5), $lt: (lon + 0.5) }
-  }, function(err, poi) {
-    if (poi) {
+  }, function(err, tPoi) {
+    if (tPoi) {
       res.json({
         "success": "false",
         "error": "poi exists",
-        "tagId": poi._id
+        "tagId": tPoi._id
       });
     } else {
       //poi save
-      var poi = new Poi({
-        name: name,
-        description: description,
-        lon: lon,
-        lat: lat,
-        user: req.user._id,
-        active: true
-      });
-
       poi.save(function(err) {
         if (err) res.send(err);
         res.json({
@@ -83,6 +63,61 @@ router.post('/poi', function(req, res) {
           "id": poi._id
         })
       });
+    }
+  });
+});
+
+/**
+ * Update poi
+ */
+router.put('/poi', function(req, res) {
+  var name = req.body.name;
+  var description = req.body.description;
+  var lat = req.body.lat;
+  var lon = req.body.lon;
+  var poiId = req.body._id;
+  var user = req.user;
+
+  Poi.findOne({ _id: poiId}, function(err, poi) {
+    if (err) res.send(err);
+    if (!poi) {
+      res.status(400).send({
+        "success": "false",
+        "error": "poi does not exist"
+      });
+    } else {
+      // console.log(poi.user);
+      // console.log(user._id);
+      // console.log(poi.user == user._id);
+      if (poi.user != user._id) {
+        res.status(400).send({
+          "success": "false",
+          "error": "user does not own poi"
+        });
+      } else {
+        lon = parseFloat(lon);
+        lat = parseFloat(lat);
+        poi.name = name;
+        poi.description = description;
+        poi.lat = lat;
+        poi.lon = lon;
+        //check poi validity
+        var result = validator.validatePoi(poi);
+        if (!result.success) {
+          res.status(400).json({
+            "success": result.success,
+            "error": result.error
+          });
+        }
+        //poi save
+        poi.save(function(err) {
+          if (err) res.send(err);
+          res.json({
+            "success": "true",
+            "id": poi._id
+          })
+        });
+      }
     }
   });
 });
