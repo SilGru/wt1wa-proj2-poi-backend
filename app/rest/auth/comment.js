@@ -21,7 +21,19 @@ router.post('/comment', function(req, res) {
     })
   }
 
-  
+  var comment = new Comment({
+    content: content,
+    user: user._id,
+    active: true
+  });
+
+  comment.save(function(err) {
+    if (err) res.status(400).send(err);
+    res.status(200).json({
+      "sucess": "true",
+      "id": comment._id
+    })
+  });
 
 });
 
