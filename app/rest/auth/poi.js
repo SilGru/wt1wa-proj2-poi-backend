@@ -75,29 +75,51 @@ router.put('/poi', function(req, res) {
   var description = req.body.description;
   var lat = req.body.lat;
   var lon = req.body.lon;
+  var poiId = req.body._id;
   var user = req.user;
 
-  var poi = new Poi({
-    name: name,
-    description: description,
-    lon: lon,
-    lat: lat,
-    user: req.user._id,
-    active: true
+  Poi.findOne({ _id: poiId}, function(err, poi) {
+    if (err) res.send(err);
+    if (!poi) {
+      res.status(400).send({
+        "success": "false",
+        "error": "poi does not exist"
+      });
+    } else {
+      // console.log(poi.user);
+      // console.log(user._id);
+      // console.log(poi.user == user._id);
+      if (poi.user != user._id) {
+        res.status(400).send({
+          "success": "false",
+          "error": "user does not own poi"
+        });
+      } else {
+        lon = parseFloat(lon);
+        lat = parseFloat(lat);
+        poi.name = name;
+        poi.description = description;
+        poi.lat = lat;
+        poi.lon = lon;
+        //check poi validity
+        var result = validator.validatePoi(poi);
+        if (!result.success) {
+          res.status(400).json({
+            "success": result.success,
+            "error": result.error
+          });
+        }
+        //poi save
+        poi.save(function(err) {
+          if (err) res.send(err);
+          res.json({
+            "success": "true",
+            "id": poi._id
+          })
+        });
+      }
+    }
   });
-
-  var result = validator.validatePoi(poi);
-
-  if (!result.success) {
-    res.status(400).json({
-      "success": result.success,
-      "error": result.error
-    });
-  }
-
-  lon = parseFloat(lon);
-  lat = parseFloat(lat);
-
 });
 
 /**
