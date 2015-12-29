@@ -7,8 +7,9 @@ var appDir   = path.dirname(require.main.filename);
 var validator = require(appDir + '/app/util/validator');
 
 //import model
-var Poi    = require(appDir + '/app/model/poi');
-var Tag    = require(appDir + '/app/model/tag');
+var Poi     = require(appDir + '/app/model/poi');
+var Tag     = require(appDir + '/app/model/tag');
+var Comment = require(appDir + '/app/model/comment');
 
 /**
  * Create poi
@@ -121,6 +122,15 @@ router.post('/poi/:poiId/tag/:tagId', function(req, res) {
 
     }
   });
+});
+
+/**
+ * assign comment to poi
+ */
+router.post('/poi/:poiId/comment/:commentId', function(req, res) {
+  var poiId = req.params.poiId;
+  var commentId = req.params.commentId;
+
 });
 
 module.exports = router;
