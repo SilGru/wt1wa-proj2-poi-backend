@@ -24,7 +24,7 @@ router.post('/tag', function(req, res) {
       res.json({
         "success": "false",
         "error": "tag exists",
-        "tagId": tag._id
+        "id": tag._id
       })
     } else {
       var tag = new Tag({
