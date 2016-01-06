@@ -156,8 +156,9 @@ router.post('/poi/:poiId/tag/:tagId', function(req, res) {
           }
           //Assign tag
           if (tagIsAssigned) {
-            res.status(200).json({
-              "success": "true"
+            res.status(400).json({
+              "success": "false",
+              "error": "tag is already assigned"
             });
           } else {
             poi.tags.push(tagId);
