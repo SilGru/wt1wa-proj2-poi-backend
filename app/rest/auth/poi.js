@@ -145,13 +145,29 @@ router.post('/poi/:poiId/tag/:tagId', function(req, res) {
             "error": "tag does not exists"
           });
         } else {
-          poi.tags.push(tagId);
-          poi.save(function(err) {
-            if (err) res.status(400).send(err);
+          //check if Tag is assigned
+          var aTags = poi.tags;
+          var length = poi.tags.length;
+          var tagIsAssigned = false;
+          for (var i = 0; i < length; i++) {
+            if (aTags[i] == tagId) {
+              tagIsAssigned = true;
+            }
+          }
+          //Assign tag
+          if (tagIsAssigned) {
             res.status(200).json({
               "success": "true"
             });
-          });
+          } else {
+            poi.tags.push(tagId);
+            poi.save(function(err) {
+              if (err) res.status(400).send(err);
+              res.status(200).json({
+                "success": "true"
+              });
+            });
+          }
         }
       });
 
