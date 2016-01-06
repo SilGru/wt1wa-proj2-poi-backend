@@ -24,18 +24,18 @@ router.get('/pois/:name', function(req, res) {
  * Returns all pois.
  */
 router.get('/pois', function(req, res) {
-  // Poi.find({})
-  // .populate("tags")
-  // .populate("comments")
-  // .populate("user")
-  // .exec(function(err, pois) {
-  //   if (err) res.send(err);
-  //   res.send(pois);
-  // })
-  Poi.find({}, function(err, pois) {
+  Poi.find({})
+  .populate("tags")
+  .populate("comments")
+  .populate("user")
+  .exec(function(err, pois) {
     if (err) res.send(err);
     res.send(pois);
-  });
+  })
+  // Poi.find({}, function(err, pois) {
+  //   if (err) res.send(err);
+  //   res.send(pois);
+  // });
 });
 
 module.exports = router;
