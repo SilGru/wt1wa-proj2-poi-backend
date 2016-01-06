@@ -9,8 +9,9 @@ var appDir   = path.dirname(require.main.filename);
 var Tag    = require(appDir + '/app/model/tag');
 
 router.get('/tags', function(req, res) {
-  var aIds = req.body.aIds;
+  var aIds = req.query.aIds;
   if (aIds) {
+    console.log(aIds);
     Tag.find({ '_id' : { $in : aIds }}, function(err, tags){
       if (err) res.send(err);
       res.send(tags);
