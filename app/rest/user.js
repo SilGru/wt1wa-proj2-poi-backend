@@ -15,8 +15,9 @@ router.get('/user/:id', function(req, res) {
     if (user) {
       user.pwh = "";
       res.send(user).end();
+    } else {
+      res.send({ "success" : "false", "error" : "user not found"});
     }
-    res.send({ "success" : "false", "error" : "user not found"});
   });
 });
 
