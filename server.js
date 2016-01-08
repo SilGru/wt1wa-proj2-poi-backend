@@ -19,7 +19,8 @@ var port = 8080;        // set our port
 
 //connect db
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1/wt1wadb');
+// mongoose.connect('mongodb://127.0.0.1/wt1wadb');
+mongoose.connect('mongodb://peter:dbpassword@ds037005.mongolab.com:37005/wt1wadb');
 
 // ROUTES FOR OUR API
 // =============================================================================
