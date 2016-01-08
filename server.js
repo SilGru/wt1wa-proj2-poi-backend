@@ -19,8 +19,22 @@ var port = 8080;        // set our port
 
 //connect db
 var mongoose = require('mongoose');
+var uriUtil = require('mongodb-uri');
+var mongodbUri = 'mongodb://user:pass@ds037005.mongolab.com:37005/wt1wadb';
+var mongooseUri = uriUtil.formatMongoose(mongodbUri);
+var options = { server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
+                replset: { socketOptions: { keepAlive: 1, connectTimeoutMS : 30000 } } };
 // mongoose.connect('mongodb://127.0.0.1/wt1wadb');
-mongoose.connect('mongodb://peter:dbpassword@ds037005.mongolab.com:37005/wt1wadb');
+mongoose.connect(mongooseUri, options);
+
+var conn = mongoose.connection;
+
+conn.on('error', console.error.bind(console, 'connection error:'));
+
+conn.once('open', function() {
+  // Wait for the database connection to establish, then start the app.
+  console.log("mongolab is connected.");
+});
 
 // ROUTES FOR OUR API
 // =============================================================================
