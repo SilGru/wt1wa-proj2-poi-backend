@@ -76,5 +76,5 @@ app.use(restServiceName, commentAuthRestCtrl);
 
 // START THE SERVER
 // =============================================================================
-app.listen(port);
+app.listen(process.env.PORT || port);
 console.log('Server listen on port ' + port);
