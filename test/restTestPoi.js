@@ -15,9 +15,6 @@ describe('Pois', function() {
       .post('/authenticate')
       .send({ name: "Peter", password: "password"})
       .set('Accept', 'application/json')
-      .expect(function(res) {
-        console.log(res.body);
-      })
       .expect(200, done);
   });
 
