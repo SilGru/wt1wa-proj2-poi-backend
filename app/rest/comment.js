@@ -11,7 +11,9 @@ var Comment    = require(appDir + '/app/model/comment');
 router.get('/comments', function(req, res) {
   var aIds = req.query.aIds;
   if (aIds) {
-    Comment.find({ '_id' : { $in : aIds }}, function(err, comments){
+    Comment.find({ '_id' : { $in : aIds }})
+    .populate("user").
+    exec(function(err, comments){
       if (err) res.send(err);
       res.send(comments);
     });
