@@ -9,7 +9,7 @@ module.exports = {
       return false;
     }
     return true;
-  }
+  },
 
   validateString : function(string) {
     if (!string || 0 === string.trim().size) {
