@@ -38,3 +38,5 @@ router.put('/user/:id/password/:password', function(req, res) {
     }
   });
 });
+
+module.exports = router;
