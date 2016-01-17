@@ -10,17 +10,29 @@ var validator = require(appDir + '/app/util/validator');
 //import models
 var User    = require(appDir + '/app/model/user');
 
-router.put('/user/:id/:password', function(req, res) {
+router.put('/user/:id/password/:password', function(req, res) {
+  var reqUser = req.user;
   User.findOne({ "_id" : req.params.id }, function(err, user) {
     if (err) res.send(err);
     if (user) {
       var password = req.params.password;
       if (validator.validatePassword(password)) {
-        var pwh = crypto.createHash('md5').update(password).digest("hex");
+        if (user._id == reqUser._id) {
+          var pwh = crypto.createHash('md5').update(password).digest("hex");
+          user.pwh = pwh;
+          user.save(function(err) {
+            if (err) res.send(err);
+            res.json({
+              "success": "true",
+              "id": user._id
+            })
+          });
+        } else {
+          res.send({ "success" : "false", "error" : "user has no rights."});
+        }
       } else {
         res.send({ "success" : "false", "error" : "password invalid."});
       }
-
     } else {
       res.send({ "success" : "false", "error" : "user not found"});
     }
