@@ -39,4 +39,32 @@ router.put('/user/:id/password/:password', function(req, res) {
   });
 });
 
+router.put('/user/:id/email/:email', function(req, res) {
+  var reqUser = req.user;
+  User.findOne({ "_id" : req.params.id }, function(err, user) {
+    if (err) res.send(err);
+    if (user) {
+      var email = req.params.email;
+      if (validator.validateEmail(email)) {
+        if (user._id == reqUser._id) {
+          user.email = email;
+          user.save(function(err) {
+            if (err) res.send(err);
+            res.json({
+              "success": "true",
+              "id": user._id
+            })
+          });
+        } else {
+          res.send({ "success" : "false", "error" : "user has no rights."});
+        }
+      } else {
+        res.send({ "success" : "false", "error" : "email invalid."});
+      }
+    } else {
+      res.send({ "success" : "false", "error" : "user not found"});
+    }
+  });
+});
+
 module.exports = router;
