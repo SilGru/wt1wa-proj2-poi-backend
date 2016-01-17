@@ -73,6 +73,8 @@ var poiAuthRestCtrl = require(appDir + '/app/rest/auth/poi');
 app.use(restServiceName, poiAuthRestCtrl);
 var commentAuthRestCtrl = require(appDir + '/app/rest/auth/comment');
 app.use(restServiceName, commentAuthRestCtrl);
+var userAuthRestCtrl = require(appDir + '/app/rest/auth/user');
+app.use(restServiceName, userAuthRestCtrl);
 
 // START THE SERVER
 // =============================================================================
