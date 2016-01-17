@@ -38,16 +38,22 @@ router.post('/comment', function(req, res) {
 });
 
 router.put('/comment', function(req, res) {
+  var commentId = req.body.commentId;
   var content = req.body.content;
   var user = req.user;
 
-  //check comment validity
+  //check content validity
   if (!validator.validateString(content)) {
     res.json({
       "success": "false",
       "error": "empty content"
     })
   }
+
+  //check comment exists
+  Comment.findOne({ "_id" : commentId }, function(err, comment) {
+
+  });
 
 });
 
