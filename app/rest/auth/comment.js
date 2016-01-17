@@ -37,4 +37,18 @@ router.post('/comment', function(req, res) {
 
 });
 
+router.put('/comment', function(req, res) {
+  var content = req.body.content;
+  var user = req.user;
+
+  //check comment validity
+  if (!validator.validateString(content)) {
+    res.json({
+      "success": "false",
+      "error": "empty content"
+    })
+  }
+
+});
+
 module.exports = router;
