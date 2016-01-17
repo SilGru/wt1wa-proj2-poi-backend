@@ -1,5 +1,16 @@
 module.exports = {
 
+  validatePassword: function(password) {
+    var length = password.trim().size;
+    if (!password) {
+      return false;
+    }
+    if (64 < length || 4 > length) {
+      return false;
+    }
+    return true;
+  }
+
   validateString : function(string) {
     if (!string || 0 === string.trim().size) {
       return false;
