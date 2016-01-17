@@ -52,7 +52,28 @@ router.put('/comment', function(req, res) {
 
   //check comment exists
   Comment.findOne({ "_id" : commentId }, function(err, comment) {
-
+    if (comment) {
+      if (comment.user == user._id) {
+        comment.content = content;
+        comment.save(function(err) {
+          if (err) res.send(err);
+          res.json({
+            "success": "true",
+            "id": comment._id
+          })
+        });
+      } else {
+        res.json({
+          "success": "false",
+          "error": "user is not comment owner."
+        })
+      }
+    } else {
+      res.json({
+        "success": "false",
+        "error": "comment with id: " + commentId + "does not exist."
+      })
+    }
   });
 
 });
