@@ -37,4 +37,45 @@ router.post('/comment', function(req, res) {
 
 });
 
+router.put('/comment', function(req, res) {
+  var commentId = req.body.commentId;
+  var content = req.body.content;
+  var user = req.user;
+
+  //check content validity
+  if (!validator.validateString(content)) {
+    res.json({
+      "success": "false",
+      "error": "empty content"
+    })
+  }
+
+  //check comment exists
+  Comment.findOne({ "_id" : commentId }, function(err, comment) {
+    if (comment) {
+      if (comment.user == user._id) {
+        comment.content = content;
+        comment.save(function(err) {
+          if (err) res.send(err);
+          res.json({
+            "success": "true",
+            "id": comment._id
+          })
+        });
+      } else {
+        res.json({
+          "success": "false",
+          "error": "user is not comment owner."
+        })
+      }
+    } else {
+      res.json({
+        "success": "false",
+        "error": "comment with id: " + commentId + "does not exist."
+      })
+    }
+  });
+
+});
+
 module.exports = router;
