@@ -32,6 +32,10 @@ All following routes **require a valid token**. You can send it as a query param
 
 * POST /poi/:poiId/comment/:commentId
 
+* PUT /comment { commentId, content }
+
+* PUT /user/:id/password/:password
+
 ## server how to
 
 * make sure you have mongodb installed listen on default port
