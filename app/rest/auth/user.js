@@ -39,4 +39,15 @@ router.put('/user/:id/password/:password', function(req, res) {
   });
 });
 
+router.put('/user/:id/email/:email', function(req, res) {
+  var reqUser = req.user;
+  User.findOne({ "_id" : req.params.id }, function(err, user) {
+    if (err) res.send(err);
+    if (user) {
+    } else {
+      res.send({ "success" : "false", "error" : "user not found"});
+    }
+  });
+});
+
 module.exports = router;
