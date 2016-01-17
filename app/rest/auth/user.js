@@ -44,6 +44,11 @@ router.put('/user/:id/email/:email', function(req, res) {
   User.findOne({ "_id" : req.params.id }, function(err, user) {
     if (err) res.send(err);
     if (user) {
+      var password = req.params.email;
+      if (validator.validateEmail(email)) {
+      } else {
+        res.send({ "success" : "false", "error" : "password invalid."});
+      }
     } else {
       res.send({ "success" : "false", "error" : "user not found"});
     }
