@@ -9,6 +9,18 @@ var crypto   = require('crypto');
 //import models
 var User    = require(appDir + '/app/model/user');
 
+router.get('/user/:name', function(req, res) {
+  User.findOne({ "name" : req.params.name }, function(err, user) {
+    if (err) res.send(err);
+    if (user) {
+      user.pwh = "";
+      res.send(user).end();
+    } else {
+      res.send({ "success" : "false", "error" : "user not found"});
+    }
+  });
+});
+
 router.get('/user/:id', function(req, res) {
   User.findOne({ "_id" : req.params.id }, function(err, user) {
     if (err) res.send(err);
