@@ -14,8 +14,25 @@ router.put('/comment/:id/active/:active', function(req, res) {
   Comment.findOne({ "_id" : req.params.id }, function(err, comment) {
     if (err) res.send(err);
     if (comment) {
+      var active = req.params.active;
+      if (active == 'true' || active == 'false') {
+        if (reqUser.role == 'admin') {
+          comment.active = (active === 'true');
+          comment.save(function(err) {
+            if (err) res.send(err);
+            res.json({
+              "success": "true",
+              "id": comment._id
+            })
+          });
+        } else {
+          res.send({ "success" : "false", "error" : "user has no rights."});
+        }
+      } else {
+        res.send({ "success" : "false", "error" : "status invalid. Must be true or false."});
+      }
     } else {
-      res.send({ "success" : "false", "error" : "tag not found"});
+      res.send({ "success" : "false", "error" : "comment not found"});
     }
   });
 });
