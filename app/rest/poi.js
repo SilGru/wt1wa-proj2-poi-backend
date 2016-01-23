@@ -12,8 +12,9 @@ var Poi    = require(appDir + '/app/model/poi');
  * Returns all pois containing given name.
  */
 router.get('/pois/:name', function(req, res) {
-  Poi.find({
-    "name" : { "$regex" : req.params.name, "$options" : "i" }
+  Poi.find({ $and: [
+    { "name" : { "$regex" : req.params.name, "$options" : "i" }},
+    { "active" : true} ]
   },function(err, pois) {
     if (err) res.send(err);
     res.send(pois);
@@ -24,7 +25,7 @@ router.get('/pois/:name', function(req, res) {
  * Returns all pois.
  */
 router.get('/pois', function(req, res) {
-  Poi.find({})
+  Poi.find({ 'active': true })
   .populate("tags")
   .populate("comments")
   .populate("user")
