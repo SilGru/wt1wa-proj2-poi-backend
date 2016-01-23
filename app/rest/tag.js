@@ -11,12 +11,12 @@ var Tag    = require(appDir + '/app/model/tag');
 router.get('/tags', function(req, res) {
   var aIds = req.query.aIds;
   if (aIds) {
-    Tag.find({ '_id' : { $in : aIds }}, function(err, tags){
+    Tag.find({ $and: [{'_id' : { $in : aIds }}, {'active': true}]}, function(err, tags){
       if (err) res.send(err);
       res.send(tags);
     });
   } else {
-    Tag.find({}, function(err, tags) {
+    Tag.find({ 'active': true }, function(err, tags) {
       if (err) res.send(err);
       res.send(tags);
     });

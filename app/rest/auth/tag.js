@@ -8,6 +8,34 @@ var appDir   = path.dirname(require.main.filename);
 //import model
 var Tag    = require(appDir + '/app/model/tag');
 
+router.put('/tag/:id/active/:active', function(req, res) {
+  var reqUser = req.user;
+  Tag.findOne({ "_id" : req.params.id }, function(err, tag) {
+    if (err) res.send(err);
+    if (tag) {
+      var active = req.params.active;
+      if (active == 'true' || active == 'false') {
+        if (reqUser.role == 'admin') {
+          tag.active = (active === 'true');
+          tag.save(function(err) {
+            if (err) res.send(err);
+            res.json({
+              "success": "true",
+              "id": tag._id
+            })
+          });
+        } else {
+          res.send({ "success" : "false", "error" : "user has no rights."});
+        }
+      } else {
+        res.send({ "success" : "false", "error" : "status invalid. Must be true or false."});
+      }
+    } else {
+      res.send({ "success" : "false", "error" : "tag not found"});
+    }
+  });
+});
+
 router.post('/tag', function(req, res) {
   var name = req.body.name;
   var user = req.user;
