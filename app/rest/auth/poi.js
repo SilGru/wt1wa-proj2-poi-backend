@@ -16,8 +16,25 @@ router.put('/poi/:id/active/:active', function(req, res) {
   Poi.findOne({ "_id" : req.params.id }, function(err, poi) {
     if (err) res.send(err);
     if (poi) {
+      var active = req.params.active;
+      if (active == 'true' || active == 'false') {
+        if (reqUser.role == 'admin') {
+          poi.active = (active === 'true');
+          poi.save(function(err) {
+            if (err) res.send(err);
+            res.json({
+              "success": "true",
+              "id": poi._id
+            })
+          });
+        } else {
+          res.send({ "success" : "false", "error" : "user has no rights."});
+        }
+      } else {
+        res.send({ "success" : "false", "error" : "status invalid. Must be true or false."});
+      }
     } else {
-      res.send({ "success" : "false", "error" : "tag not found"});
+      res.send({ "success" : "false", "error" : "poi not found"});
     }
   });
 });
