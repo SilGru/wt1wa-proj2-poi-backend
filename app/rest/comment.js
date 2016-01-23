@@ -11,14 +11,14 @@ var Comment    = require(appDir + '/app/model/comment');
 router.get('/comments', function(req, res) {
   var aIds = req.query.aIds;
   if (aIds) {
-    Comment.find({ '_id' : { $in : aIds }})
+    Comment.find({ $and: [{'_id' : { $in : aIds }}, {'active': true}]})
     .populate("user").
     exec(function(err, comments){
       if (err) res.send(err);
       res.send(comments);
     });
   } else {
-    Comment.find({})
+    Comment.find({ 'active': true })
     .populate("user")
     .exec(function(err, comments) {
       if (err) res.send(err);

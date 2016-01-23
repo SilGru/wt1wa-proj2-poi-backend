@@ -9,6 +9,34 @@ var validator = require(appDir + '/app/util/validator');
 //import model
 var Comment  = require(appDir + '/app/model/comment');
 
+router.put('/comment/:id/active/:active', function(req, res) {
+  var reqUser = req.user;
+  Comment.findOne({ "_id" : req.params.id }, function(err, comment) {
+    if (err) res.send(err);
+    if (comment) {
+      var active = req.params.active;
+      if (active == 'true' || active == 'false') {
+        if (reqUser.role == 'admin') {
+          comment.active = (active === 'true');
+          comment.save(function(err) {
+            if (err) res.send(err);
+            res.json({
+              "success": "true",
+              "id": comment._id
+            })
+          });
+        } else {
+          res.send({ "success" : "false", "error" : "user has no rights."});
+        }
+      } else {
+        res.send({ "success" : "false", "error" : "status invalid. Must be true or false."});
+      }
+    } else {
+      res.send({ "success" : "false", "error" : "comment not found"});
+    }
+  });
+});
+
 router.post('/comment', function(req, res) {
   var content = req.body.content;
   var user = req.user;
