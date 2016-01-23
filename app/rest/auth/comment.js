@@ -9,6 +9,17 @@ var validator = require(appDir + '/app/util/validator');
 //import model
 var Comment  = require(appDir + '/app/model/comment');
 
+router.put('/comment/:id/active/:active', function(req, res) {
+  var reqUser = req.user;
+  Comment.findOne({ "_id" : req.params.id }, function(err, comment) {
+    if (err) res.send(err);
+    if (comment) {
+    } else {
+      res.send({ "success" : "false", "error" : "tag not found"});
+    }
+  });
+});
+
 router.post('/comment', function(req, res) {
   var content = req.body.content;
   var user = req.user;
