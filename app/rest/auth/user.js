@@ -10,6 +10,17 @@ var validator = require(appDir + '/app/util/validator');
 //import models
 var User    = require(appDir + '/app/model/user');
 
+router.put('/user/:id/active/:active', function(req, res) {
+  var reqUser = req.user;
+  User.findOne({ "_id" : req.params.id }, function(err, user) {
+    if (err) res.send(err);
+    if (user) {
+    } else {
+      res.send({ "success" : "false", "error" : "user not found"});
+    }
+  });
+});
+
 router.put('/user/:id/password/:password', function(req, res) {
   var reqUser = req.user;
   User.findOne({ "_id" : req.params.id }, function(err, user) {
