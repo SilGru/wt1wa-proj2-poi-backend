@@ -11,6 +11,17 @@ var Poi     = require(appDir + '/app/model/poi');
 var Tag     = require(appDir + '/app/model/tag');
 var Comment = require(appDir + '/app/model/comment');
 
+router.put('/poi/:id/active/:active', function(req, res) {
+  var reqUser = req.user;
+  Poi.findOne({ "_id" : req.params.id }, function(err, poi) {
+    if (err) res.send(err);
+    if (poi) {
+    } else {
+      res.send({ "success" : "false", "error" : "tag not found"});
+    }
+  });
+});
+
 /**
  * Create poi
  */
