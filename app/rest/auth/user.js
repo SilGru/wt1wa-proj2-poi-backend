@@ -18,14 +18,18 @@ router.put('/user/:id/active/:active', function(req, res) {
       var active = req.params.active;
       if (active == 'true' || active == 'false') {
         if (reqUser.role == 'admin') {
-          user.active = active;
-          user.save(function(err) {
-            if (err) res.send(err);
-            res.json({
-              "success": "true",
-              "id": user._id
-            })
-          });
+          if (JSON.stringify(reqUser._id) != JSON.stringify(user._id)) {
+            user.active = (active === 'true');
+            user.save(function(err) {
+              if (err) res.send(err);
+              res.json({
+                "success": "true",
+                "id": user._id
+              })
+            });
+          } else {
+            res.send({ "success" : "false", "error" : "user can not change own status."});
+          }
         } else {
           res.send({ "success" : "false", "error" : "user has no rights."});
         }
