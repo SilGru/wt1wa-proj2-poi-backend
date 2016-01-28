@@ -10,6 +10,38 @@ var validator = require(appDir + '/app/util/validator');
 //import models
 var User    = require(appDir + '/app/model/user');
 
+router.put('/user/:id/role/:role', function(req, res) {
+  var reqUser = req.user;
+  User.findOne({ "_id" : req.params.id }, function(err, user) {
+    if (err) res.send(err);
+    if (user) {
+      var role = req.params.role;
+      if (role == 'admin' || role == 'user') {
+        if (reqUser.role == 'admin') {
+          if (JSON.stringify(reqUser._id) != JSON.stringify(user._id)) {
+            user.role = role;
+            user.save(function(err) {
+              if (err) res.send(err);
+              res.json({
+                "success": "true",
+                "id": user._id
+              })
+            });
+          } else {
+            res.send({ "success" : "false", "error" : "user can not change own status."});
+          }
+        } else {
+          res.send({ "success" : "false", "error" : "user has no rights."});
+        }
+      } else {
+        res.send({ "success" : "false", "error" : "role invalid. Must be admin or user."});
+      }
+    } else {
+      res.send({ "success" : "false", "error" : "user not found"});
+    }
+  });
+});
+
 router.put('/user/:id/active/:active', function(req, res) {
   var reqUser = req.user;
   User.findOne({ "_id" : req.params.id }, function(err, user) {
