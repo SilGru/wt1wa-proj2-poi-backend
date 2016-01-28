@@ -10,6 +10,29 @@ var validator = require(appDir + '/app/util/validator');
 var Poi     = require(appDir + '/app/model/poi');
 var Tag     = require(appDir + '/app/model/tag');
 var Comment = require(appDir + '/app/model/comment');
+var PoiReport = require(appDir + '/app/model/poi_report');
+
+router.post('/poi/:id/report', function(req, res) {
+  var reqUser = req.user;
+  Poi.findOne({ "_id" : req.params.id }, function(err, poi) {
+    if (err) res.send(err);
+    if (poi) {
+      var poiReport = new PoiReport({
+        poi : req.params.id,
+        reporter : req.user._id
+      });
+      poiReport.save(function(err) {
+        if (err) res.send(err);
+        res.json({
+          "success": "true",
+          "id": "poi " + req.params.id  + " reported."
+        })
+      });
+    } else {
+      res.send({ "success" : "false", "error" : "poi not found"});
+    }
+  });
+});
 
 router.put('/poi/:id/active/:active', function(req, res) {
   var reqUser = req.user;
