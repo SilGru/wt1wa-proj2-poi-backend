@@ -48,6 +48,8 @@ All following routes **require a valid token**. You can send it as a query param
 
 * PUT /user/:id/role/:role
 
+* POST /poi/:poiId/report
+
 ## server how to
 
 * make sure you have mongodb installed listen on default port
