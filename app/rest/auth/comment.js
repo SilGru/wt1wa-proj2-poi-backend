@@ -9,6 +9,17 @@ var validator = require(appDir + '/app/util/validator');
 //import model
 var Comment  = require(appDir + '/app/model/comment');
 
+router.post('/comment/:id/report', function(req, res) {
+  var reqUser = req.user;
+  Comment.findOne({ "_id" : req.params.id }, function(err, poi) {
+    if (err) res.send(err);
+    if (poi) {
+    } else {
+      res.send({ "success" : "false", "error" : "poi not found"});
+    }
+  });
+});
+
 router.put('/comment/:id/active/:active', function(req, res) {
   var reqUser = req.user;
   Comment.findOne({ "_id" : req.params.id }, function(err, comment) {
