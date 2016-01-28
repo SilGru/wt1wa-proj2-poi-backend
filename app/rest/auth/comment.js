@@ -8,6 +8,29 @@ var validator = require(appDir + '/app/util/validator');
 
 //import model
 var Comment  = require(appDir + '/app/model/comment');
+var CommentReport = require(appDir + '/app/model/comment_report');
+
+router.post('/comment/:id/report', function(req, res) {
+  var reqUser = req.user;
+  Comment.findOne({ "_id" : req.params.id }, function(err, poi) {
+    if (err) res.send(err);
+    if (poi) {
+      var commentReport = new CommentReport({
+        comment : req.params.id,
+        reporter : req.user._id
+      });
+      commentReport.save(function(err) {
+        if (err) res.send(err);
+        res.json({
+          "success": "true",
+          "id": "comment " + req.params.id  + " reported."
+        })
+      });
+    } else {
+      res.send({ "success" : "false", "error" : "comment not found"});
+    }
+  });
+});
 
 router.put('/comment/:id/active/:active', function(req, res) {
   var reqUser = req.user;
