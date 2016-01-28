@@ -17,6 +17,17 @@ router.post('/poi/:id/report', function(req, res) {
   Poi.findOne({ "_id" : req.params.id }, function(err, poi) {
     if (err) res.send(err);
     if (poi) {
+      var poiReport = new PoiReport({
+        poi : req.params.id,
+        reporter : req.user._id
+      });
+      poiReport.save(function(err) {
+        if (err) res.send(err);
+        res.json({
+          "success": "true",
+          "id": "poi " + req.params.id  + " reported."
+        })
+      });
     } else {
       res.send({ "success" : "false", "error" : "poi not found"});
     }
