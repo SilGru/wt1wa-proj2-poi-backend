@@ -24,6 +24,14 @@ All following routes **require a valid token**. You can send it as a query param
 
 * GET /users
 
+* GET /allcomments (must be admin)
+
+* GET /allpois (must be admin)
+
+* GET /alltags (must be admin)
+
+* Get /allusers (must be admin)
+
 * POST /tag {"name": "name"}
 
 * POST /comment {"content": "content"}
