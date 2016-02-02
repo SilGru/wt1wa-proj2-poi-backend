@@ -22,6 +22,8 @@
 
 All following routes **require a valid token**. You can send it as a query param or as a body param.
 
+* GET /users
+
 * POST /tag {"name": "name"}
 
 * POST /comment {"content": "content"}
