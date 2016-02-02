@@ -10,6 +10,19 @@ var validator = require(appDir + '/app/util/validator');
 var Comment  = require(appDir + '/app/model/comment');
 var CommentReport = require(appDir + '/app/model/comment_report');
 
+router.get('/allcomments', function(req, res) {
+  if (req.user.role == 'admin') {
+    Comment.find({})
+    .populate("user").
+    exec(function(err, comments){
+      if (err) res.send(err);
+      res.send(comments);
+    });
+  } else {
+      res.send({ "success" : "false", "error" : "no admin rights"});
+  }
+});
+
 router.post('/comment/:id/report', function(req, res) {
   var reqUser = req.user;
   Comment.findOne({ "_id" : req.params.id }, function(err, poi) {
