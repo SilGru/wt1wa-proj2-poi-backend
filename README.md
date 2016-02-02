@@ -16,7 +16,9 @@
 
 * GET /comments  (opt. [ ids ])
 
-* GET /user/:id
+* GET /user/id/:id
+
+* GET /user/name/:name
 
 All following routes **require a valid token**. You can send it as a query param or as a body param.
 
