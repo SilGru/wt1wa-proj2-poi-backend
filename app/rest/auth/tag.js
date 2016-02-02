@@ -8,6 +8,18 @@ var appDir   = path.dirname(require.main.filename);
 //import model
 var Tag    = require(appDir + '/app/model/tag');
 
+router.get('/alltags', function(req, res) {
+  if (req.user.role == 'admin') {
+    Tag.find({})
+    .exec(function(err, tags){
+      if (err) res.send(err);
+      res.send(tags);
+    });
+  } else {
+      res.send({ "success" : "false", "error" : "no admin rights"});
+  }
+});
+
 router.put('/tag/:id/active/:active', function(req, res) {
   var reqUser = req.user;
   Tag.findOne({ "_id" : req.params.id }, function(err, tag) {
