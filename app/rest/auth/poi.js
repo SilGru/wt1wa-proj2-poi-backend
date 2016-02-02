@@ -12,6 +12,21 @@ var Tag     = require(appDir + '/app/model/tag');
 var Comment = require(appDir + '/app/model/comment');
 var PoiReport = require(appDir + '/app/model/poi_report');
 
+router.get('/allpois', function(req, res) {
+  if (req.user.role == 'admin') {
+    Poi.find({})
+    .populate("tags")
+    .populate("comments")
+    .populate("user").
+    exec(function(err, pois){
+      if (err) res.send(err);
+      res.send(pois);
+    });
+  } else {
+      res.send({ "success" : "false", "error" : "no admin rights"});
+  }
+});
+
 router.post('/poi/:id/report', function(req, res) {
   var reqUser = req.user;
   Poi.findOne({ "_id" : req.params.id }, function(err, poi) {
