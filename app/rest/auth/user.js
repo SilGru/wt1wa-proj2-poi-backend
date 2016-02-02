@@ -10,6 +10,20 @@ var validator = require(appDir + '/app/util/validator');
 //import models
 var User    = require(appDir + '/app/model/user');
 
+router.get('/users', function(req, res) {
+  User.find({}, function(err, users) {
+    if (err) res.send(err);
+    if (users) {
+      for (var i = 0; i < users.length; i++) {
+        users[i].pwh = "";
+      }
+      res.send(users).end();
+    } else {
+      res.send({ "success" : "false", "error" : "no users not found"});
+    }
+  });
+});
+
 router.put('/user/:id/role/:role', function(req, res) {
   var reqUser = req.user;
   User.findOne({ "_id" : req.params.id }, function(err, user) {
